@@ -28,7 +28,7 @@ const Test:React.FC<TestProps>=props => {
       const response = await fetch(
         "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
         {
-          headers: { Authorization: "Bearer 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" },
+          headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_HUGGINGFACE_KEY}` },
           method: "POST",
           body: JSON.stringify(data),
         }
@@ -39,18 +39,18 @@ const Test:React.FC<TestProps>=props => {
    await query({"inputs": "Astronaut riding a horse"}).then((response) => {
      console.log(response)
      const newUrl = URL.createObjectURL(response);
-     console.log(newUrl)
+     console.log(newUrl,'图片地址')
     setUrl(newUrl)
     });
     uploadImage()
   }
 
   const uploadImage=async ()=>{
-    const nftstorage= new NFTStorage({token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweGZGNzAzNDcxMTU4MUE3QTg2ODZCYzdlMjUzMmY2OTExZDIwODdlQjkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcxMDg0MzAwMDUxMiwibmFtZSI6InRlc3QifQ.jcS5MnXmk7vF3ggARkNFPC55T1YhcQTyHzgG9WE9vKQ"})
+    const nftstorage= new NFTStorage({token: process.env.NEXT_PUBLIC_NFT_TOKEN  as string  })
     const metadata =await nftstorage.store({
       image: new File([url], "image.jpeg", { type: "image/jpeg" }),
-      name: "a1",
-      description: "a2",
+      name: "a21",
+      description: "a22",
     })
    console.log(metadata.url,2)
    const final= await mintImage(metadata.url)
